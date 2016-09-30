@@ -554,7 +554,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var s = 256;
 // modifiy the number of pizza to screen size.
 
-  for (var i = 0; i < 30; i++) {
+  for (var i = 0; i < 50; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
