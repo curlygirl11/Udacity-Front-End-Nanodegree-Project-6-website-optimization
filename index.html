@@ -57,7 +57,7 @@
     }
 
     .content { padding: 1em 1em; }
-    .content li { list-style-type: none; font-size: 1.1em;}
+  .content li { list-style-type: none; font-size: 1.1em;}
     li img { float:left; padding-right: 1em; }
     li p { font-size: 0.9em; font-style: italic; }
 
@@ -87,7 +87,22 @@
     </script>
         <!--fix added https instead of http-->
     <script src="https://www.google-analytics.com/analytics.js" async></script>
-    <script async src="js/perfmatters.js"></script>
+    <script >
+
+    function logCRP() {
+      var t = window.performance.timing,
+        dcl = t.domContentLoadedEventStart - t.domLoading,
+        complete = t.domComplete - t.domLoading;
+      var stats = document.getElementById("crp-stats");
+      stats.textContent = 'DCL: ' + dcl + 'ms, onload: ' + complete + 'ms';
+    }
+
+    window.addEventListener("load", function(event) {
+      logCRP();
+    });
+
+
+    </script>
   </head>
 
   <body>
