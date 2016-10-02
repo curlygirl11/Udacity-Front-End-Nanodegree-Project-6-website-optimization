@@ -521,8 +521,8 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 
 
 
-
-
+//Repeated Code
+//ScrollPosition = document.body.scrollTop;
 
 
 function updatePositions() {
