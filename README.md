@@ -158,7 +158,7 @@ for (var i = 0; i < 30; i++) {
 
 ## Run
 
-To run this app go to the root file and launch  "frontend-nanodegree-mobile-portfolio-master".
+To run this app go to the root file "frontend-nanodegree-mobile-portfolio-master"  and launch index.html.
 
 
 
