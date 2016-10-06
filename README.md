@@ -30,7 +30,147 @@ Some useful tips to help you get started:
 
 Profile, optimize, measure... and then lather, rinse, and repeat. Good luck!
 
-####Part 2: Optimize Frames per Second in pizza.html
+
+## Part 1 Changes
+
+_____________________________________________________________________________________________________
+
+## index.html changes
+
+1. CSS that was in css/print.css is now in index.html
+2. CSS that was in css/style.css is now in index.html
+3. JavaScript was moved form js/perfmatter is now in index.html
+
+Code was moved to speed up page load time.
+
+## Part 2: Optimize Frames per Second in pizza.html
+____________________________________________________________________________________________________
+### Pizza.html
+
+1. CSS that was in css/print.css is now in pizza.html
+2. CSS that was in css/bootstrap-grid.css is now in pizza.html
+3. JavaScript that was in js/main.js is now in pizza.html
+
+Code was moved to speed up page load time.
+
+
+
+The following are changes that were made to main.js before it was inserted into pizza.html
+
+
+1.Make changePizzaSizes fuction more efficent.
+### Original
+
+    function changePizzaSizes(size) {
+     for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
+      var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
+      var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
+      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+    }
+     }
+
+### Revised
+```
+    function changePizzaSizes(size) {
+
+    var dx = determineDx(document.getElementsByClassName("randomPizzaContainer")[0], size);              var newwidth = (document.getElementsByClassName("randomPizzaContainer")[0].offsetWidth + dx) + 'px';
+
+    for (var i = 0; i < document.getElementsByClassName("randomPizzaContainer").length; i++) {
+    document.getElementsByClassName("randomPizzaContainer")[i].style.width = newwidth;
+      }
+      }
+```
+
+2. pulled unnecessary code out of a for loop 
+#### original 
+
+```
+  for (var i = 2; i < 100; i++) {
+     var pizzasDiv = document.getElementById("randomPizzas");
+     pizzasDiv.appendChild(pizzaElementGenerator(i));
+    }
+```
+### Revised 
+
+var pizzasDiv = document.getElementById("randomPizzas"); has been removed for more efficent code
+
+```
+var pizzasDiv = document.getElementById("randomPizzas");
+
+for (var i = 2; i < 100; i++) {
+  pizzasDiv.appendChild(pizzaElementGenerator(i));
+}
+
+```
+3. Removed more unnecessary code from loops
+### Original 
+```
+function logAverageFrame(times) {   // times is the array of User Timing measurements from updatePositions()
+  var numberOfEntries = times.length;
+  var sum = 0;
+  for (var i = numberOfEntries - 1; i > numberOfEntries - 11; i--) {
+    sum = sum + times[i].duration;
+  }
+```
+### Revised
+```
+var numberOfEntries = times.length;
+function logAverageFrame(times) {   // times is the array of User Timing measurements from updatePositions()
+
+  var sum = 0;
+  for (var i = numberOfEntries - 1; i > numberOfEntries - 11; i--) {
+    sum = sum + times[i].duration;
+  }
+  ```
+
+4. Decreased unnecessary number of pizzas being displayed from 200 to 30. 
+### Original 
+
+```
+document.addEventListener('DOMContentLoaded', function() {
+  var cols = 8;
+  var s = 256;
+  for (var i = 0; i < 200; i++) {
+    var elem = document.createElement('img');
+    elem.className = 'mover';
+    elem.src = "images/pizza.png";
+    elem.style.height = "100px";
+    elem.style.width = "73.333px";
+    elem.basicLeft = (i % cols) * s;
+    elem.style.top = (Math.floor(i / cols) * s) + 'px';
+    document.querySelector("#movingPizzas1").appendChild(elem);
+  }
+```
+### Revised
+```
+for (var i = 0; i < 30; i++) {
+    var elem = document.createElement('img');
+    elem.className = 'mover';
+    elem.src = "images/pizza.png";
+    elem.style.height = "100px";
+    elem.style.width = "73.333px";
+    elem.basicLeft = (i % cols) * s;
+    elem.style.top = (Math.floor(i / cols) * s) + 'px';
+    document.querySelector("#movingPizzas1").appendChild(elem);
+  }
+
+```
+
+## Run
+
+To run this app go to the root file and launch  "frontend-nanodegree-mobile-portfolio-master".
+
+
+
+
+
+
+
+
+
+
+
+
 
 To optimize views/pizza.html, you will need to modify views/js/main.js until your frames per second rate is 60 fps or higher. You will find instructive comments in main.js. 
 
