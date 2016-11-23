@@ -1,195 +1,35 @@
-## Website Performance Optimization portfolio project
+## Yelp API 2.0
 
-Your challenge, if you wish to accept it (and we sure hope you will), is to optimize this online portfolio for speed! In particular, optimize the critical rendering path and make this page render as quickly as possible by applying the techniques you've picked up in the [Critical Rendering Path course](https://www.udacity.com/course/ud884).
-
-To get started, check out the repository and inspect the code.
-
-### Getting started
-
-####Part 1: Optimize PageSpeed Insights score for index.html
-
-Some useful tips to help you get started:
-
-1. Check out the repository
-1. To inspect the site on your phone, you can run a local server
-
-  ```bash
-  $> cd /path/to/your-project-folder
-  $> python -m SimpleHTTPServer 8080
-  ```
-
-1. Open a browser and visit localhost:8080
-1. Download and install [ngrok](https://ngrok.com/) to the top-level of your project directory to make your local server accessible remotely.
-
-  ``` bash
-  $> cd /path/to/your-project-folder
-  $> ./ngrok http 8080
-  ```
-
-1. Copy the public URL ngrok gives you and try running it through PageSpeed Insights! Optional: [More on integrating ngrok, Grunt and PageSpeed.](http://www.jamescryer.com/2014/06/12/grunt-pagespeed-and-ngrok-locally-testing/)
-
-Profile, optimize, measure... and then lather, rinse, and repeat. Good luck!
+Parameters required for request
+- oauth_consumer_key
+- oauth_token
+- oauth_signature_method which is hmac-sha1
+- oauth_signature
+- oauth_timestamp	Timestamp for the request in seconds since the Unix epoch.
+- oauth_nonce	 A unique string randomly generated per request.
 
 
-## Part 1 Changes
+You need the following for the code to work.
 
-_____________________________________________________________________________________________________
+Yelp API 2.0 Access
 
-## index.html changes
+http://yelp.com
 
-1. CSS that was in css/print.css is now in index.html
-2. CSS that was in css/style.css is now in index.html
-3. JavaScript was moved form js/perfmatter is now in index.html
+JQuery Library
 
-Code was moved to speed up page load time.
+https://jquery.com/
 
-## Part 2: Optimize Frames per Second in pizza.html
-____________________________________________________________________________________________________
-### Pizza.html
+-OAuth-Signature-js Library
 
-1. CSS that was in css/print.css is now in pizza.html
-2. CSS that was in css/bootstrap-grid.css is now in pizza.html
-3. JavaScript that was in js/main.js is now in pizza.html
-
-Code was moved to speed up page load time.
+https://github.com/bettiolo/oauth-signature-js/tree/master/dist
 
 
 
-The following are changes that were made to main.js before it was inserted into pizza.html
+## Script order matters when embedding links in the HTML.
 
-
-1.Make changePizzaSizes fuction more efficent.
-### Original
-
-    function changePizzaSizes(size) {
-     for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-      var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
-    }
-     }
-
-### Revised
+This script order worked for this code.
 ```
-    function changePizzaSizes(size) {
-
-    var dx = determineDx(document.getElementsByClassName("randomPizzaContainer")[0], size);              var newwidth = (document.getElementsByClassName("randomPizzaContainer")[0].offsetWidth + dx) + 'px';
-
-    for (var i = 0; i < document.getElementsByClassName("randomPizzaContainer").length; i++) {
-    document.getElementsByClassName("randomPizzaContainer")[i].style.width = newwidth;
-      }
-      }
+<script src="lib/jquery-3.1.1.min.js"></script>
+<script src="lib/oauth-signature.js"></script>
+<script src="app.js"></script>
 ```
-
-2. pulled unnecessary code out of a for loop 
-#### original 
-
-```
-  for (var i = 2; i < 100; i++) {
-     var pizzasDiv = document.getElementById("randomPizzas");
-     pizzasDiv.appendChild(pizzaElementGenerator(i));
-    }
-```
-### Revised 
-
-var pizzasDiv = document.getElementById("randomPizzas"); has been removed for more efficent code
-
-```
-var pizzasDiv = document.getElementById("randomPizzas");
-
-for (var i = 2; i < 100; i++) {
-  pizzasDiv.appendChild(pizzaElementGenerator(i));
-}
-
-```
-3. Removed more unnecessary code from loops
-### Original 
-```
-function logAverageFrame(times) {   // times is the array of User Timing measurements from updatePositions()
-  var numberOfEntries = times.length;
-  var sum = 0;
-  for (var i = numberOfEntries - 1; i > numberOfEntries - 11; i--) {
-    sum = sum + times[i].duration;
-  }
-```
-### Revised
-```
-var numberOfEntries = times.length;
-function logAverageFrame(times) {   // times is the array of User Timing measurements from updatePositions()
-
-  var sum = 0;
-  for (var i = numberOfEntries - 1; i > numberOfEntries - 11; i--) {
-    sum = sum + times[i].duration;
-  }
-  ```
-
-4. Decreased unnecessary number of pizzas being displayed from 200 to 30. 
-### Original 
-
-```
-document.addEventListener('DOMContentLoaded', function() {
-  var cols = 8;
-  var s = 256;
-  for (var i = 0; i < 200; i++) {
-    var elem = document.createElement('img');
-    elem.className = 'mover';
-    elem.src = "images/pizza.png";
-    elem.style.height = "100px";
-    elem.style.width = "73.333px";
-    elem.basicLeft = (i % cols) * s;
-    elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    document.querySelector("#movingPizzas1").appendChild(elem);
-  }
-```
-### Revised
-```
-for (var i = 0; i < 30; i++) {
-    var elem = document.createElement('img');
-    elem.className = 'mover';
-    elem.src = "images/pizza.png";
-    elem.style.height = "100px";
-    elem.style.width = "73.333px";
-    elem.basicLeft = (i % cols) * s;
-    elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    document.querySelector("#movingPizzas1").appendChild(elem);
-  }
-
-```
-
-## Run
-
-To run this app go to the root file "frontend-nanodegree-mobile-portfolio-master"  and launch index.html.
-
-
-
-
-
-
-
-
-
-
-
-
-
-To optimize views/pizza.html, you will need to modify views/js/main.js until your frames per second rate is 60 fps or higher. You will find instructive comments in main.js. 
-
-You might find the FPS Counter/HUD Display useful in Chrome developer tools described here: [Chrome Dev Tools tips-and-tricks](https://developer.chrome.com/devtools/docs/tips-and-tricks).
-
-### Optimization Tips and Tricks
-* [Optimizing Performance](https://developers.google.com/web/fundamentals/performance/ "web performance")
-* [Analyzing the Critical Rendering Path](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/analyzing-crp.html "analyzing crp")
-* [Optimizing the Critical Rendering Path](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/optimizing-critical-rendering-path.html "optimize the crp!")
-* [Avoiding Rendering Blocking CSS](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-blocking-css.html "render blocking css")
-* [Optimizing JavaScript](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/adding-interactivity-with-javascript.html "javascript")
-* [Measuring with Navigation Timing](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/measure-crp.html "nav timing api"). We didn't cover the Navigation Timing API in the first two lessons but it's an incredibly useful tool for automated page profiling. I highly recommend reading.
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/eliminate-downloads.html">The fewer the downloads, the better</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/optimize-encoding-and-transfer.html">Reduce the size of text</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/image-optimization.html">Optimize images</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching.html">HTTP caching</a>
-
-### Customization with Bootstrap
-The portfolio was built on Twitter's <a href="http://getbootstrap.com/">Bootstrap</a> framework. All custom styles are in `dist/css/portfolio.css` in the portfolio repo.
-
-* <a href="http://getbootstrap.com/css/">Bootstrap's CSS Classes</a>
-* <a href="http://getbootstrap.com/components/">Bootstrap's Components</a>
